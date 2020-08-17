@@ -1,0 +1,358 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<title>title</title>
+	<meta name="description" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!--<meta property="og:image" content="path/to/image.jpg">
+	<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">-->
+	<link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+	<meta name="theme-color" content="#000">
+	<meta name="msapplication-navbutton-color" content="#000">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
+    <style>
+        .disabled{
+            opacity: .5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+	<!-- start header -->
+	<header class="header">
+		<div class="header-bg"></div>
+		<div class="wrapper">
+			<div class="header-logo">
+				<a href="/"><img src="{% static 'img/logo.svg' %}" alt=""></a>
+			</div>
+			<div class="header-menu">
+				<ul class="header-list">
+					<li class="drop">
+						<a href="#" class="drop-text">
+							Rate
+							<svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.3625 0.368747L4.5 3.23125L1.63125 0.368747L0.75 1.25L4.5 5L8.25 1.25L7.3625 0.368747Z" fill="white"/></svg>
+						</a>
+						<div class="drop-info">
+							  <ul>
+                                {% if 2 in cat_ids %}
+                                    <li ><a class="active" href="{% url 'startups' 2 %}">Inclusion Solutions</a></li>
+                                {% else %}
+                                    <li><a >Inclusion Solutions</a></li>
+                                {% endif %}
+                                {% if 1 in cat_ids %}
+                                    <li><a class="active" href="{% url 'startups' 1 %}">Financial Services</a></li>
+                                {% else %}
+                                    <li><a >Financial Services</a></li>
+                                {% endif %}
+                                {% if 3 in cat_ids %}
+                                    <li><a class="active" href="{% url 'startups' 3 %}">HR Solutions</a></li>
+                                {% else %}
+                                    <li><a >HR Solutions</a></li>
+                                {% endif %}
+
+
+                            </ul>
+						</div>
+					</li>
+					<li><a href="#">Instructions</a></li>
+					<li><a href="{% url 'contests' %}">Contests</a></li>
+                    {% if request.user.is_superuser %}
+					<li class="li-mob"><a href="{% url 'admin_page' 1 %}">Admin</a></li>
+                        {% endif %}
+					<li class="li-mob"><a href="{% url 'logout_page' %}">Exit</a></li>
+				</ul>
+				<div class="header-user">
+					<div class="header-user__top">
+						<span class="header-user__name">{{ request.user.first_name }}</span>
+						<div class="header-user__img"><img src="{{ request.user.get_avatar }}" alt=""></div>
+						<div class="header-user__arrow"><svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.41 0.579987L6 5.16999L10.59 0.579987L12 1.99999L6 7.99999L0 1.99999L1.41 0.579987Z" fill="white"/></svg></div>
+					</div>
+					<div class="header-user__drop">
+						<ul>
+							{% if request.user.is_superuser %}
+
+					<li ><a href="{% url 'admin_page' 1 %}">Admin</a></li>
+                        {% endif %}
+					<li ><a href="{% url 'logout_page' %}">Exit</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="header-bar">
+				<span></span>
+			</div>
+		</div>
+	</header>
+	<!-- end header -->
+	<!-- start main -->
+	<section class="main main-internal" style="background-image: url({% static 'img/main-bg.jpg' %});">
+		<div class="wrapper">
+			<div class="category-top">
+				<div class="category-top__img">
+					<img src="{% static 'img/main-1.jpg' %}" alt="">
+				</div>
+				<div class="category-top__info">
+					<span class="category-top__name">{{ contest_cat }} Category</span>
+
+					<span class="category-top__subtitle">List of startups</span>
+				</div>
+			</div>
+			<div class="startups">
+				<div class="startups-wrap startups-scrollbar scrollbar-outer">
+                    {% for startup in localStartup %}
+					<div class="startup">
+						<div class="startup-main">
+							<span class="startup-num">{{ forloop.counter }}</span>
+							<div class="startup-main__row">
+								<div class="startup-main__img"><img src="{{ startup.logo }}" alt=""></div>
+								<div class="startup-main__info">
+									<span class="startup-main__name">{{ startup.company }}</span>
+{#									<span class="startup-main__subtitle">Short description</span>#}
+								</div>
+							</div>
+							<div class="startup-main__btns">
+
+
+                                    {% if startup.id in rated %}
+                                        <a href="#"   class="primary-btn primary-btn__ico info-btn">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 10.9794C11 10.4271 11.4477 9.97937 12 9.97937C12.5523 9.97937 13 10.4271 13 10.9794V16.9794C13 17.5317 12.5523 17.9794 12 17.9794C11.4477 17.9794 11 17.5317 11 16.9794V10.9794Z" fill="white"/><path d="M12 6.05115C11.4477 6.05115 11 6.49886 11 7.05115C11 7.60343 11.4477 8.05115 12 8.05115C12.5523 8.05115 13 7.60343 13 7.05115C13 6.49886 12.5523 6.05115 12 6.05115Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12Z" fill="white"/></svg>
+									info
+								</a>
+
+                                        <div class="startup-rated">Rated</div>
+                                    {% else %}
+                                        <a href="#" data-id="{{ startup.id }}" onclick="document.getElementById('rate_btn_{{ startup.id }}').classList.remove('disabled'); return true"  class="primary-btn primary-btn__ico info-btn">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 10.9794C11 10.4271 11.4477 9.97937 12 9.97937C12.5523 9.97937 13 10.4271 13 10.9794V16.9794C13 17.5317 12.5523 17.9794 12 17.9794C11.4477 17.9794 11 17.5317 11 16.9794V10.9794Z" fill="white"/><path d="M12 6.05115C11.4477 6.05115 11 6.49886 11 7.05115C11 7.60343 11.4477 8.05115 12 8.05115C12.5523 8.05115 13 7.60343 13 7.05115C13 6.49886 12.5523 6.05115 12 6.05115Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12Z" fill="white"/></svg>
+									info
+								</a>
+
+                                       <a href="#" id="rate_btn_{{ startup.id }}" class="second-btn rate-btn disabled">Rate</a>
+                                    {% endif %}
+
+
+							</div>
+						</div>
+						<div class="startup-info">
+							<div class="startup-info__wrap">
+								<div class="startup-block">
+									<h3 class="startup-subtitle">Team representative</h3>
+									<div class="startup-block__wrap">
+										<ul>
+											<li><a href="#">{{ startup.first_name }} {{ startup.last_name }} {{ startup.position }}</a></li>
+
+										</ul>
+									</div>
+								</div>
+								<div class="startup-block">
+									<h3 class="startup-subtitle">Website</h3>
+									<div class="startup-block__wrap">
+										<ul>
+											<li><a href="{{ startup.website }}">{{ startup.website }}</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="startup-block">
+									<h3 class="startup-subtitle">Unique solution and your BIG IDEA (up to 400 words)</h3>
+									<div class="startup-block__wrap">
+                                        <p>{{ startup.idea }}</p>
+								</div>
+								</div>
+								<div class="startup-block">
+									<h3 class="startup-subtitle">Social media</h3>
+									<div class="startup-block__wrap">
+										<ul class="startup-social">
+											<li><a href="{{ startup.linkedin }}">
+												<b><img src="{% static 'img/linkedin.svg' %}" alt=""></b>
+												<span>LinkedIn</span>
+											</a></li>
+											<li><a href="{{ startup.facebook }}">
+												<b><img src="{% static 'img/facebook.svg'%}" alt=""></b>
+												<span>FaceBook</span>
+											</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="startup-block">
+									<h3 class="startup-subtitle">Full-time employees</h3>
+									<div class="startup-block__wrap">
+										<p>Numbers of employees: {{ startup.employees }}</p>
+									</div>
+								</div>
+								<div class="startup-block">
+									<h3 class="startup-subtitle">Market stage</h3>
+									<div class="startup-block__wrap">
+										<p>{{ startup.stage }}</p>
+									</div>
+								</div>
+								<div class="startup-block">
+									<h3 class="startup-subtitle">Funding</h3>
+									<div class="startup-block__wrap">
+										<ul class="startup-category">
+											<li><a href="#">{{ startup.funding }}</a></li>
+
+										</ul>
+									</div>
+								</div>
+								<div class="startup-block">
+									<h3 class="startup-subtitle">Your presentation (a pdf or a video link)</h3>
+									<div class="startup-block__wrap">
+                                        {% if startup.presentation %}
+										<p><a href="{{ startup.presentation }}">MyPresentation.pdf</a></p>
+                                        {% endif %}
+										<div class="startup-slider">
+											<div class="startup-slide">
+												<div class="startup-video">
+													<div class="startup-iframe">
+														<iframe src="https://www.youtube.com/embed/Uoq8NA_N7Ao" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+                        {% if stage.stage1 %}
+						<div class="startup-rate">
+							<div class="startup-rate__row">
+								<div class="startup-rate__col startup-rate__col-1">
+									<form action="{% url 'rate' %}" method="post">{% csrf_token %}
+										<div class="startup-rate__wrap startup-rate__wrap-top">
+											<div class="startup-rate__text"></div>
+											<div class="startup-rate__bar">
+												<div class="startup-rate__bar-col">1</div>
+												<div class="startup-rate__bar-col">2</div>
+												<div class="startup-rate__bar-col">3</div>
+												<div class="startup-rate__bar-col">4</div>
+												<div class="startup-rate__bar-col">5</div>
+											</div>
+										</div>
+										<div class="startup-rate__wrap">
+											<div class="startup-rate__text">Product</div>
+											<div class="startup-rate__bar startup-rate__choice">
+												<div class="startup-rate__bar-col startup-rate__bar-1 active" data-bar="bar-1"><span>1</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-2" data-bar="bar-2"><span>2</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-3" data-bar="bar-3"><span>3</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-4" data-bar="bar-4"><span>4</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-5" data-bar="bar-5"><span>5</span></div>
+												<input name="product_bar" type="text" value="bar-1" class="startup-input">
+											</div>
+										</div>
+										<div class="startup-rate__wrap">
+											<div class="startup-rate__text">Team</div>
+											<div class="startup-rate__bar startup-rate__choice">
+												<div class="startup-rate__bar-col startup-rate__bar-1 active" data-bar="bar-1"><span>1</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-2 " data-bar="bar-2"><span>2</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-3" data-bar="bar-3"><span>3</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-4" data-bar="bar-4"><span>4</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-5" data-bar="bar-5"><span>5</span></div>
+												<input name="team_bar" type="text" value="bar-1" class="startup-input">
+											</div>
+										</div>
+										<div class="startup-rate__wrap">
+											<div class="startup-rate__text">Achievements</div>
+											<div class="startup-rate__bar startup-rate__choice">
+												<div class="startup-rate__bar-col startup-rate__bar-1 active" data-bar="bar-1"><span>1</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-2" data-bar="bar-2"><span>2</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-3" data-bar="bar-3"><span>3</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-4 " data-bar="bar-4"><span>4</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-5" data-bar="bar-5"><span>5</span></div>
+												<input name="achievements_bar" type="text" value="bar-1" class="startup-input">
+											</div>
+										</div>
+										<div class="startup-rate__wrap">
+											<div class="startup-rate__text">Market Validation</div>
+											<div class="startup-rate__bar startup-rate__choice">
+												<div class="startup-rate__bar-col startup-rate__bar-1 active" data-bar="bar-1"><span>1</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-2" data-bar="bar-2"><span>2</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-3" data-bar="bar-3"><span>3</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-4" data-bar="bar-4"><span>4</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-5" data-bar="bar-5"><span>5</span></div>
+												<input name="market_bar" type="text" value="bar-1" class="startup-input">
+											</div>
+										</div>
+										<div class="startup-rate__wrap">
+											<div class="startup-rate__text">Business Model</div>
+											<div class="startup-rate__bar startup-rate__choice">
+												<div class="startup-rate__bar-col startup-rate__bar-1 active" data-bar="bar-1"><span>1</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-2" data-bar="bar-2"><span>2</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-3 " data-bar="bar-3"><span>3</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-4" data-bar="bar-4"><span>4</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-5" data-bar="bar-5"><span>5</span></div>
+												<input name="business_bar" type="text" value="bar-1" class="startup-input">
+											</div>
+										</div>
+                                        <input type="hidden" name="startup_id" value="{{ startup.id }}">
+                                        <input type="hidden" name="jury_id" value="{{ request.user.id }}">
+										<div class="startup-rate__btn">
+											<button class="primary-btn">Submit</button>
+										</div>
+									</form>
+								</div>
+								<div class="startup-rate__col startup-rate__col-2">
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum augue a, tristique maecenas et.</p>
+									<p>Hendrerit elementum imperdiet leo tellus volutpat consequat diam.</p>
+									<p>Tristique maecenas commodo non aenean et ullamcorper non. Praesent magna at lacus mauris nec malesuada semper a.</p>
+								</div>
+							</div>
+						</div>
+                        {% else %}
+                            <div class="startup-rate">
+							<div class="startup-rate__row">
+								<div class="startup-rate__col startup-rate__col-1">
+									<form action="{% url 'rate_stage2' %}" method="post">{% csrf_token %}
+										<div class="startup-rate__wrap startup-rate__wrap-top">
+											<div class="startup-rate__text"></div>
+											<div class="startup-rate__bar">
+												<div class="startup-rate__bar-col">1</div>
+												<div class="startup-rate__bar-col">2</div>
+												<div class="startup-rate__bar-col">3</div>
+												<div class="startup-rate__bar-col">4</div>
+												<div class="startup-rate__bar-col">5</div>
+											</div>
+										</div>
+										<div class="startup-rate__wrap">
+											<div class="startup-rate__text">Presentation</div>
+											<div class="startup-rate__bar startup-rate__choice">
+												<div class="startup-rate__bar-col startup-rate__bar-1 active" data-bar="bar-1"><span>1</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-2" data-bar="bar-2"><span>2</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-3" data-bar="bar-3"><span>3</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-4" data-bar="bar-4"><span>4</span></div>
+												<div class="startup-rate__bar-col startup-rate__bar-5" data-bar="bar-5"><span>5</span></div>
+												<input name="presentation_bar" type="text" value="bar-1" class="startup-input">
+											</div>
+										</div>
+
+                                        <input type="hidden" name="startup_id" value="{{ startup.id }}">
+                                        <input type="hidden" name="jury_id" value="{{ request.user.id }}">
+										<div class="startup-rate__btn">
+											<button class="primary-btn">Submit</button>
+										</div>
+									</form>
+								</div>
+								<div class="startup-rate__col startup-rate__col-2">
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum augue a, tristique maecenas et.</p>
+									<p>Hendrerit elementum imperdiet leo tellus volutpat consequat diam.</p>
+									<p>Tristique maecenas commodo non aenean et ullamcorper non. Praesent magna at lacus mauris nec malesuada semper a.</p>
+								</div>
+							</div>
+						</div>
+                        {% endif %}
+					</div><!-- startup -->
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end main -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="{% static 'js/scripts.min.js' %}"></script>
+</body>
+</html>

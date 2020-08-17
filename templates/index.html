@@ -1,0 +1,203 @@
+{% load static %}
+
+{% if request.user.is_authenticated %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>title</title>
+        <meta name="description" content="">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <!--<meta property="og:image" content="path/to/image.jpg">
+        <link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">-->
+        <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+        <meta name="theme-color" content="#000">
+        <meta name="msapplication-navbutton-color" content="#000">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#000">
+    </head>
+    <body>
+    <!-- start header -->
+    <header class="header">
+		<div class="header-bg"></div>
+		<div class="wrapper">
+			<div class="header-logo">
+				<a href="/"><img src="{% static 'img/logo.svg' %}" alt=""></a>
+			</div>
+			<div class="header-menu">
+				<ul class="header-list">
+					<li class="drop">
+						<a href="#" class="drop-text">
+							Rate
+							<svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.3625 0.368747L4.5 3.23125L1.63125 0.368747L0.75 1.25L4.5 5L8.25 1.25L7.3625 0.368747Z" fill="white"/></svg>
+						</a>
+						<div class="drop-info">
+							  <ul>
+                                {% if 2 in cat_ids %}
+                                    <li ><a class="active" href="{% url 'startups' 2 %}">Inclusion Solutions</a></li>
+                                {% else %}
+                                    <li><a >Inclusion Solutions</a></li>
+                                {% endif %}
+                                {% if 1 in cat_ids %}
+                                    <li><a class="active" href="{% url 'startups' 1 %}">Financial Services</a></li>
+                                {% else %}
+                                    <li><a >Financial Services</a></li>
+                                {% endif %}
+                                {% if 3 in cat_ids %}
+                                    <li><a class="active" href="{% url 'startups' 3 %}">HR Solutions</a></li>
+                                {% else %}
+                                    <li><a >HR Solutions</a></li>
+                                {% endif %}
+
+
+                            </ul>
+						</div>
+					</li>
+					<li><a href="#">Instructions</a></li>
+					<li><a href="{% url 'contests' %}">Contests</a></li>
+                    {% if request.user.is_superuser %}
+					<li class="li-mob"><a href="{% url 'admin_page' 1 %}">Admin</a></li>
+                        {% endif %}
+					<li class="li-mob"><a href="{% url 'logout_page' %}">Exit</a></li>
+				</ul>
+				<div class="header-user">
+					<div class="header-user__top">
+						<span class="header-user__name">{{ request.user.first_name }}</span>
+						<div class="header-user__img"><img src="{{ request.user.get_avatar }}" alt=""></div>
+						<div class="header-user__arrow"><svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.41 0.579987L6 5.16999L10.59 0.579987L12 1.99999L6 7.99999L0 1.99999L1.41 0.579987Z" fill="white"/></svg></div>
+					</div>
+					<div class="header-user__drop">
+						<ul>
+							{% if request.user.is_superuser %}
+
+					<li ><a href="{% url 'admin_page' 1 %}">Admin</a></li>
+                        {% endif %}
+					<li ><a href="{% url 'logout_page' %}">Exit</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="header-bar">
+				<span></span>
+			</div>
+		</div>
+	</header>
+    <!-- end header -->
+    <!-- start main -->
+    <section class="main main-second" style="background-image: url({% static 'img/main-bg.jpg' %});">
+        <div class="wrapper">
+            <div class="main-wrap">
+                <div class="main-row">
+
+                    <div class="main-col">
+                        {% if 2 in cat_ids %}
+                            <a href="{% url 'startups' 2 %}" class="main-col__wrap active">
+                                <span class="main-col__img"><img src="{% static 'img/main-1.jpg' %}" alt=""></span>
+                                <span class="main-col__name">Inclusion Solutions</span>
+                            </a>
+                        {% else %}
+                            <a href="" class="main-col__wrap ">
+                                <span class="main-col__img"><img src="{% static 'img/main-1.jpg' %}" alt=""></span>
+                                <span class="main-col__name">Inclusion Solutions</span>
+                            </a>
+                        {% endif %}
+                    </div><!-- col -->
+                    <div class="main-col">
+                        {% if 1 in cat_ids %}
+                            <a href="{% url 'startups' 1 %}" class="main-col__wrap active">
+                                <span class="main-col__img"><img src="{% static 'img/main-2.jpg' %}" alt=""></span>
+                                <span class="main-col__name">Financical Services</span>
+                            </a>
+                        {% else %}
+                            <a href="" class="main-col__wrap">
+                                <span class="main-col__img"><img src="{% static 'img/main-2.jpg' %}" alt=""></span>
+                                <span class="main-col__name">Financical Services</span>
+                            </a>
+                        {% endif %}
+                    </div><!-- col -->
+                    <div class="main-col">
+                        {% if 3 in cat_ids %}
+                            <a href="{% url 'startups' 3 %}" class="main-col__wrap active">
+                                <span class="main-col__img"><img src="{% static 'img/main-3.jpg' %}" alt=""></span>
+                                <span class="main-col__name">HR Solutions</span>
+                            </a>
+                        {% else %}
+                            <a href="" class="main-col__wrap">
+                                <span class="main-col__img"><img src="{% static 'img/main-3.jpg' %}" alt=""></span>
+                                <span class="main-col__name">HR Solutions</span>
+                            </a>
+                        {% endif %}
+                    </div><!-- col -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end main -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'js/scripts.min.js' %}"></script>
+    </body>
+    </html>
+{% else %}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <title>title</title>
+        <meta name="description" content="">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <!--<meta property="og:image" content="path/to/image.jpg">
+        <link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">-->
+        <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+        <meta name="theme-color" content="#000">
+        <meta name="msapplication-navbutton-color" content="#000">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#000">
+    </head>
+    <body>
+    <!-- start main -->
+    <section class="main" style="background-image: url({% static 'img/main-bg.jpg' %});">
+        <div class="wrapper">
+            <div class="main-top">
+                <div class="main-logo">
+                    <a href="#"><img src="{% static 'img/logo.svg' %}" alt=""></a>
+                </div>
+                <h1 class="main-title">Startup Evaluation Platform</h1>
+            </div>
+            <div class="main-form">
+                <div class="main-form__bg"><svg width="204" height="171" viewBox="0 0 204 171" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(#mkfreq4fs)"><circle cx="85.5" cy="81.5" r="81.5" fill="#0028C8"/></g><g filter="url(#ewqr43)"><circle cx="162.5" cy="43.5" r="37.5" fill="#5C58FA"/></g><defs><filter id="mkfreq4fs" x="0" y="0" width="171" height="171" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/></filter><filter id="ewqr43" x="121" y="6" width="83" height="83" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/></filter></defs></svg></div>
+                <div class="main-form__wrap">
+                    <div class="main-form__content">
+                        <form action="{% url 'signup' %}" method="post">{% csrf_token %}
+                            <h3 class="main-form__title">Log In</h3>
+                            <div class="input-block">
+                                <input type="text" name="email" placeholder="Username">
+                            </div>
+                            <div class="input-block">
+                                <input type="password" name="password" placeholder="Password">
+                            </div>
+                            <div class="main-form__row">
+                                <div class="checkbox">
+                                    <input type="checkbox">
+                                    <span class="checkbox-ico"></span>
+                                    <p>Stay signed in</p>
+                                </div>
+                                <button type="submit" class="primary-btn">LOGIN</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end main -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'js/scripts.min.js' %}"></script>
+    </body>
+    </html>
+{% endif %}

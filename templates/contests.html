@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<title>title</title>
+	<meta name="description" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!--<meta property="og:image" content="path/to/image.jpg">
+	<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">-->
+	<link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+	<meta name="theme-color" content="#000">
+	<meta name="msapplication-navbutton-color" content="#000">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
+</head>
+<body>
+	<!-- start header -->
+<header class="header">
+		<div class="header-bg"></div>
+		<div class="wrapper">
+			<div class="header-logo">
+				<a href="/"><img src="{% static 'img/logo.svg' %}" alt=""></a>
+			</div>
+			<div class="header-menu">
+				<ul class="header-list">
+					<li class="drop">
+						<a href="#" class="drop-text">
+							Rate
+							<svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.3625 0.368747L4.5 3.23125L1.63125 0.368747L0.75 1.25L4.5 5L8.25 1.25L7.3625 0.368747Z" fill="white"/></svg>
+						</a>
+						<div class="drop-info">
+							  <ul>
+                                {% if 2 in cat_ids %}
+                                    <li ><a class="active" href="{% url 'startups' 2 %}">Inclusion Solutions</a></li>
+                                {% else %}
+                                    <li><a >Inclusion Solutions</a></li>
+                                {% endif %}
+                                {% if 1 in cat_ids %}
+                                    <li><a class="active" href="{% url 'startups' 1 %}">Financial Services</a></li>
+                                {% else %}
+                                    <li><a >Financial Services</a></li>
+                                {% endif %}
+                                {% if 3 in cat_ids %}
+                                    <li><a class="active" href="{% url 'startups' 3 %}">HR Solutions</a></li>
+                                {% else %}
+                                    <li><a >HR Solutions</a></li>
+                                {% endif %}
+
+
+                            </ul>
+						</div>
+					</li>
+					<li><a href="#">Instructions</a></li>
+					<li><a href="{% url 'contests' %}">Contests</a></li>
+                    {% if request.user.is_superuser %}
+					<li class="li-mob"><a href="{% url 'admin_page' 1 %}">Admin</a></li>
+                        {% endif %}
+					<li class="li-mob"><a href="{% url 'logout_page' %}">Exit</a></li>
+				</ul>
+				<div class="header-user">
+					<div class="header-user__top">
+						<span class="header-user__name">{{ request.user.first_name }}</span>
+						<div class="header-user__img"><img src="{{ request.user.get_avatar }}" alt=""></div>
+						<div class="header-user__arrow"><svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.41 0.579987L6 5.16999L10.59 0.579987L12 1.99999L6 7.99999L0 1.99999L1.41 0.579987Z" fill="white"/></svg></div>
+					</div>
+					<div class="header-user__drop">
+						<ul>
+							{% if request.user.is_superuser %}
+
+					<li ><a href="{% url 'admin_page' 1 %}">Admin</a></li>
+                        {% endif %}
+					<li ><a href="{% url 'logout_page' %}">Exit</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="header-bar">
+				<span></span>
+			</div>
+		</div>
+	</header>
+	<!-- end header -->
+	<!-- start contests -->
+	<section class="contests">
+		<div class="contests-bg contests-bg__1"><svg width="437" height="551" viewBox="0 0 437 551" fill="none" xmlns="http://www.w3.org/2000/svg"><circle opacity="0.4" cx="50.5" cy="164.5" r="275.5" fill="#0028C8"/><circle cx="50.4996" cy="164.5" r="355.269" stroke="#0028C8"/><circle cx="50.5" cy="164.5" r="385" stroke="#0028C8" stroke-width="3"/></svg></div>
+		<div class="contests-bg contests-bg__2"><svg width="323" height="773" viewBox="0 0 323 773" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="386.5" cy="386.5" r="355.269" stroke="#0028C8"/><circle cx="386.5" cy="386.5" r="385" stroke="#0028C8" stroke-width="3"/></svg></div>
+		<div class="contests-bg contests-bg__mob"><svg width="334" height="773" viewBox="0 0 334 773" fill="none" xmlns="http://www.w3.org/2000/svg"><g opacity="0.2"><circle opacity="0.4" cx="386.5" cy="386.5" r="275.5" fill="#0028C8"/><circle cx="386.5" cy="386.5" r="355.269" stroke="#0028C8"/><circle cx="386.5" cy="386.5" r="385" stroke="#0028C8" stroke-width="3"/></g></svg></div>
+		<div class="wrapper">
+			<div class="contests-block">
+				<h3 class="contests-subtitle">Startup Pitch Contests</h3>
+				<p>The Global Inclusion Online Forum Startup Pitch Contest is one of the first startup pitches that offers a platform to early stage startups that are dealing with inclusion issues. In addition to what our innovation partners are pledging to donate, CFC Big Ideas commits to putting US $6 from every paid ticket to the Forum into the prize fund.</p>
+			</div>
+			<div class="contests-block">
+				<h3 class="contests-subtitle">Inclusion Solutions</h3>
+				<p>For startups that have developed unique products and services that considers the full range of human diversity — ability, language, culture, gender, age and other forms of human difference</p>
+			</div>
+			<div class="contests-block">
+				<h3 class="contests-subtitle">Financial Services</h3>
+				<p>For startups that offer financial services or investment to entrepreneurs from underrepresented groups or minorities. The objective of such startups should follow such a rule: to include different categories of people into the economic and financial system by engaging them into new financial tools and facilities</p>
+			</div>
+			<div class="contests-block">
+				<h3 class="contests-subtitle">HR Solutions</h3>
+				<p>For startups that offer products, services or tools that have a positive impact on inclusive hiring, staffing, talent acquisition, applying for vacancies or ensuring an unbiased workplace experience</p>
+			</div>
+			<div class="contests-block">
+				<h3 class="contests-subtitle">Requirements:</h3>
+				<ul>
+					<li><span>•</span> product must deliver a unique solution to boost inclusion and diversity</li>
+					<li><span>•</span> product has not passed pre-seed stage (i.e. has an idea/proof of concept/minimal viable product, but has not attracted a seed investment yet)</li>
+				</ul>
+			</div>
+			<div class="contests-block contests-bottom">
+				<h1 class="contests-title">Competition schedule</h1>
+				<div class="contests-row">
+					<div class="contests-col">
+						<span class="contests-num"><svg width="18" height="49" viewBox="0 0 18 49" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.99 0V49H11.06V6.09H0V0H17.99Z" fill="white"/></svg></span>
+						<p>Application and Recruitment Period: till 22 August 2020</p>
+					</div>
+					<div class="contests-col">
+						<span class="contests-num"><svg width="37" height="50" viewBox="0 0 37 50" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M36.82 43.47V49.56H1.61V44.8L21.56 25.55C23.9867 23.2167 25.62 21.21 26.46 19.53C27.3 17.8033 27.72 16.0767 27.72 14.35C27.72 11.7833 26.81 9.8 24.99 8.4C23.2167 6.95333 20.65 6.23 17.29 6.23C11.8767 6.23 7.7 8.00333 4.76 11.55L0 7.42C1.91333 5.08667 4.41 3.26667 7.49 1.96C10.6167 0.653333 14.0933 0 17.92 0C23.0533 0 27.1367 1.23667 30.17 3.71C33.2033 6.13666 34.72 9.45 34.72 13.65C34.72 16.2633 34.16 18.7367 33.04 21.07C31.92 23.4033 29.7967 26.0633 26.67 29.05L11.69 43.47H36.82Z" fill="white"/></svg></span>
+						<p>Finalists Selection: 23–25 August 2020</p>
+					</div>
+					<div class="contests-col">
+						<span class="contests-num"><svg width="37" height="50" viewBox="0 0 37 50" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.77 20.58C26.5767 21.0467 30.24 22.54 32.76 25.06C35.28 27.5333 36.54 30.7067 36.54 34.58C36.54 37.38 35.84 39.9233 34.44 42.21C33.04 44.45 30.94 46.2467 28.14 47.6C25.3867 48.9067 22.0033 49.56 17.99 49.56C14.49 49.56 11.13 49.0467 7.91 48.02C4.69 46.9467 2.05333 45.4767 0 43.61L3.22 38.08C4.9 39.6667 7.04667 40.95 9.66 41.93C12.2733 42.8633 15.05 43.33 17.99 43.33C21.63 43.33 24.4533 42.56 26.46 41.02C28.5133 39.48 29.54 37.3567 29.54 34.65C29.54 31.9433 28.5367 29.8433 26.53 28.35C24.5233 26.8567 21.49 26.11 17.43 26.11H13.51V21.21L25.83 6.09H2.24V0H34.58V4.76L21.77 20.58Z" fill="white"/></svg></span>
+						<p>Pitch Preparations’ Testing sessions: 26–31 August 2020</p>
+					</div>
+					<div class="contests-col">
+						<span class="contests-num"><svg width="44" height="49" viewBox="0 0 44 49" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M43.33 36.96H34.02V49H27.23V36.96H0V32.06L25.06 0H32.62L8.61 30.94H27.44V20.3H34.02V30.94H43.33V36.96Z" fill="white"/></svg></span>
+						<p>Pitch Presentations: 4 September 2020 (in a separate stream of the Online Forum)</p>
+					</div>
+					<div class="contests-col">
+						<span class="contests-num"><svg width="37" height="50" viewBox="0 0 37 50" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.17 19.53C23.17 19.53 28.3033 20.86 31.57 23.52C34.8833 26.1333 36.54 29.7267 36.54 34.3C36.54 37.1933 35.84 39.8067 34.44 42.14C33.0867 44.4267 31.01 46.2467 28.21 47.6C25.4567 48.9067 22.05 49.56 17.99 49.56C14.5367 49.56 11.2 49.0467 7.98 48.02C4.76 46.9467 2.1 45.4767 0 43.61L3.22 38.08C4.9 39.6667 7.04667 40.95 9.66 41.93C12.2733 42.8633 15.0267 43.33 17.92 43.33C21.6067 43.33 24.4533 42.56 26.46 41.02C28.5133 39.4333 29.54 37.2867 29.54 34.58C29.54 31.64 28.42 29.4233 26.18 27.93C23.94 26.39 20.1133 25.62 14.7 25.62H3.57L6.16 0H33.81V6.09H12.04L10.71 19.53H16.17Z" fill="white"/></svg></span>
+						<p>Winners Announcement: 4 September 2020</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end contests -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="{% static 'js/scripts.min.js' %}"></script>
+</body>
+</html>
