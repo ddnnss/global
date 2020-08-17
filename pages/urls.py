@@ -13,5 +13,6 @@ urlpatterns = [
     path('rate', views.rate, name='rate'),
     path('rate_stage2', views.rate_stage2, name='rate_stage2'),
     path('start_stage2', views.start_stage2, name='start_stage2'),
+    path('send_notify', views.send_notify, name='send_notify'),
 
 ]

@@ -3,6 +3,8 @@ from django.shortcuts import render
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from customuser.models import *
+from django.core.mail import send_mail, send_mass_mail
+from django.template.loader import render_to_string
 import settings
 
 
@@ -125,6 +127,8 @@ def invite(request):
         for cat in request.POST.getlist('category'):
             c = Category.objects.get(name=cat)
             user.category.add(c)
+
+
     allinvited = User.objects.filter(is_invited_person=True)
 
     return render(request, 'invite.html', locals())
@@ -174,10 +178,41 @@ def rate_stage2(request):
     startup.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+def send_notify(request):
+    print(request.GET)
+    msg_html = render_to_string('not_rate_email.html', {})
+    send_mail('not_rate', None, 'info@pandiga.ru',
+              [request.GET.get('email')],
+              fail_silently=False, html_message=msg_html)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def start_stage2(request):
-    stage = Stage.objects.get(id=1)
-    stage.stage1 = False
-    stage.save()
+    allStartups = StartUp.objects.all().order_by('-total_points')
+    top8 = allStartups[:settings.MAX_STAPTUPS_TOP_7]
+    top20 = allStartups[settings.MAX_STAPTUPS_TOP_7:settings.MAX_STAPTUPS_TOP_20]
+    other = allStartups[settings.MAX_STAPTUPS_TOP_20:]
+    print(top8)
+    print(top20)
+    print(other)
+
+    # for i in top8:
+    #     msg_html = render_to_string('invite_email.html', {})
+    #     send_mail('top8', None, 'info@pandiga.ru',
+    #               [i.email],
+    #               fail_silently=False, html_message=msg_html)
+    # for i in top20:
+    #     msg_html = render_to_string('invite_email.html', {})
+    #     send_mail('top20', None, 'info@pandiga.ru',
+    #               [i.email],
+    #               fail_silently=False, html_message=msg_html)
+    # for i in other:
+    #     msg_html = render_to_string('not_in_final_email.html', {})
+    #     send_mail('other', None, 'info@pandiga.ru',
+    #               [i.email],
+    #               fail_silently=False, html_message=msg_html)
+    #
+    # stage = Stage.objects.get(id=1)
+    # stage.stage1 = False
+    # stage.save()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
