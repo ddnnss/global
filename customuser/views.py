@@ -18,7 +18,7 @@ def logout_page(request):
 def signup(request):
     if request.method == 'POST':
         print(request.POST)
-        user = None
+        temp_user = None
         try:
             temp_user = User.objects.get(email=request.POST.get('email'))
             print(temp_user)
@@ -28,11 +28,11 @@ def signup(request):
                 temp_user.save()
             temp_user = User.objects.get(email=request.POST.get('email'))
             user = authenticate(username=temp_user.email, password=request.POST.get('password'))
-            print(user)
+
         except:
             pass
-        if user:
-            login(request, user)
+        if temp_user:
+            login(request, temp_user)
         else:
             print('user not found')
         return HttpResponseRedirect('/')
