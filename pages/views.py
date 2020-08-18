@@ -180,8 +180,8 @@ def rate_stage2(request):
 
 def send_notify(request):
     print(request.GET)
-    msg_html = render_to_string('not_rate_email.html', {})
-    send_mail('not_rate', None, 'info@pandiga.ru',
+    msg_html = render_to_string('not_rate_email.html', {'name':request.GET.get('name')})
+    send_mail('Startup Evaluation Reminder', None, 'tickets@inclusionforum.global',
               [request.GET.get('email')],
               fail_silently=False, html_message=msg_html)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -193,26 +193,25 @@ def start_stage2(request):
     print(top8)
     print(top20)
     print(other)
+    for i in top8:
+        msg_html = render_to_string('top8_email.html', {'name':i.company})
+        send_mail('Startup Pitch Contest Final', None, 'tickets@inclusionforum.global',
+                  [i.email],
+                  fail_silently=False, html_message=msg_html)
+    for i in top20:
+        msg_html = render_to_string('top20_email.html', {'name':i.company})
+        send_mail('Startup Pitch Expo Qualified', None, 'tickets@inclusionforum.global',
+                  [i.email],
+                  fail_silently=False, html_message=msg_html)
+    for i in other:
+        msg_html = render_to_string('not_in_final_email.html', {'name':i.company})
+        send_mail('Startup Pitch Contest Results', None, 'tickets@inclusionforum.global',
+                  [i.email],
+                  fail_silently=False, html_message=msg_html)
 
-    # for i in top8:
-    #     msg_html = render_to_string('invite_email.html', {})
-    #     send_mail('top8', None, 'info@pandiga.ru',
-    #               [i.email],
-    #               fail_silently=False, html_message=msg_html)
-    # for i in top20:
-    #     msg_html = render_to_string('invite_email.html', {})
-    #     send_mail('top20', None, 'info@pandiga.ru',
-    #               [i.email],
-    #               fail_silently=False, html_message=msg_html)
-    # for i in other:
-    #     msg_html = render_to_string('not_in_final_email.html', {})
-    #     send_mail('other', None, 'info@pandiga.ru',
-    #               [i.email],
-    #               fail_silently=False, html_message=msg_html)
-    #
-    # stage = Stage.objects.get(id=1)
-    # stage.stage1 = False
-    # stage.save()
+    stage = Stage.objects.get(id=1)
+    stage.stage1 = False
+    stage.save()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 

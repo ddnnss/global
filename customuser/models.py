@@ -91,12 +91,14 @@ def user_post_save(sender, instance, created, **kwargs):
 
     if created:
         if instance.is_invited:
-            msg_html = render_to_string('invite_email.html', {'email': instance.email,
-                                                              'password':instance.temp_password
+            msg_html = render_to_string('invite_email.html', {
+                                                              'name': instance.first_name,
+                                                              'email': instance.email,
+                                                              'password': instance.temp_password
                                                               })
-            # send_mail('INVITE', None, 'info@pandiga.ru',
-            #           [instance.email],
-            #           fail_silently=False, html_message=msg_html)
+            send_mail('Startup Evaluation Platform Invite', None, 'tickets@inclusionforum.global',
+                      [instance.email],
+                      fail_silently=False, html_message=msg_html)
             instance.is_active = False
             instance.is_invited_person = True
             instance.save()
