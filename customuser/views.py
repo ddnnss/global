@@ -28,6 +28,7 @@ def signup(request):
                 temp_user.save()
             temp_user = User.objects.get(email=request.POST.get('email'))
             user = authenticate(username=temp_user.email, password=request.POST.get('password'))
+            print(user)
         except:
             pass
         if user:
