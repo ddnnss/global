@@ -17,6 +17,7 @@ def logout_page(request):
 
 def signup(request):
     if request.method == 'POST':
+        print(request.POST)
         user = None
         try:
             temp_user = User.objects.get(email=request.POST.get('email'))
