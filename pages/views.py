@@ -48,10 +48,12 @@ def startups(request,id):
         for i in all_rated:
             rated.append(i.startup.id)
     else:
-        try:
-            localStartup = StartUp.objects.filter(contest=contest_cat).order_by('-total_points')[:settings.MAX_STAPTUPS_TOP_7]
-        except:
-            localStartup = StartUp.objects.filter(contest=contest_cat).order_by('-total_points')
+        temp = StartUp.objects.all().order_by('-total_points')[:settings.MAX_STAPTUPS_TOP_7]
+        localStartup = []
+        for i in temp:
+            if i.contest == contest_cat:
+                localStartup.append(i)
+
 
         all_rated = RatedStage2.objects.filter(user=request.user)
         rated = []
@@ -69,31 +71,34 @@ def admin(request,category_id):
 
 
     for startup in allStartups:
-        temp, created = StartUp.objects.get_or_create(original_id=startup.id, defaults={
-            'order':startup.order,
-            'approved':startup.approved,
-            'contest':startup.contest,
-            'first_name':startup.first_name,
-            'last_name':startup.last_name,
-            'email':startup.email,
-            'position':startup.position,
-            'company':startup.company,
-            'website':startup.website,
-            'linkedin':startup.linkedin,
-            'facebook':startup.facebook,
-            'employees':startup.employees,
-            'stage' :startup.stage,
-            'funding':startup.funding,
-            'video':startup.video,
-            'idea' :startup.idea,
-            'logo':startup.logo,
-            'presentation':startup.presentation,
-            'date':startup.date
-        })
-        if created:
-            print('new record id', temp.id)
+        if startup.approved == 'yes':
+            temp, created = StartUp.objects.get_or_create(original_id=startup.id, defaults={
+                'order':startup.order,
+                'approved':startup.approved,
+                'contest':startup.contest,
+                'first_name':startup.first_name,
+                'last_name':startup.last_name,
+                'email':startup.email,
+                'position':startup.position,
+                'company':startup.company,
+                'website':startup.website,
+                'linkedin':startup.linkedin,
+                'facebook':startup.facebook,
+                'employees':startup.employees,
+                'stage' :startup.stage,
+                'funding':startup.funding,
+                'video':startup.video,
+                'idea' :startup.idea,
+                'logo':startup.logo,
+                'presentation':startup.presentation,
+                'date':startup.date
+            })
+            if created:
+                print('new record id', temp.id)
+            else:
+                print('record id exixts', temp.id)
         else:
-            print('record id exixts', temp.id)
+            print('not appruved')
 
     contest_cat = ''
     if category_id == '1':
@@ -105,10 +110,11 @@ def admin(request,category_id):
     if stage.stage1:
         localStartup = StartUp.objects.filter(contest=contest_cat).order_by('-total_points')
     else:
-        try:
-            localStartup = StartUp.objects.filter(contest=contest_cat).order_by('-total_points')[:settings.MAX_STAPTUPS_TOP_7]
-        except:
-            localStartup = StartUp.objects.filter(contest=contest_cat).order_by('-total_points')
+        temp = StartUp.objects.all().order_by('-total_points')[:settings.MAX_STAPTUPS_TOP_7]
+        localStartup =[]
+        for i in temp:
+            if i.contest == contest_cat:
+                localStartup.append(i)
     listJury = User.objects.filter(category__in=[category_id])
     print(listJury)
 
@@ -187,6 +193,7 @@ def send_notify(request):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def start_stage2(request):
     allStartups = StartUp.objects.all().order_by('-total_points')
+    print(allStartups)
     top8 = allStartups[:settings.MAX_STAPTUPS_TOP_7]
     top20 = allStartups[settings.MAX_STAPTUPS_TOP_7:settings.MAX_STAPTUPS_TOP_20]
     other = allStartups[settings.MAX_STAPTUPS_TOP_20:]

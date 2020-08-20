@@ -56,6 +56,9 @@ class StartUp(models.Model):
     business_bar = models.IntegerField(default=0)
     presentation_bar = models.IntegerField(default=0)
 
+    def __str__(self):
+        return f'{self.id}'
+
 class Stage(models.Model):
     stage1 = models.BooleanField(default=True)
     stage2 = models.BooleanField(default=False)
