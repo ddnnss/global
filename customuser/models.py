@@ -96,7 +96,7 @@ def user_post_save(sender, instance, created, **kwargs):
                                                               'email': instance.email,
                                                               'password': instance.temp_password
                                                               })
-            send_mail('Startup Evaluation Platform Invite', None, 'tickets@inclusionforum.global',
+            send_mail('Startup Evaluation Platform Invite', None, 'Pitch <pitch@inclusionforum.global>',
                       [instance.email],
                       fail_silently=False, html_message=msg_html)
             instance.is_active = False
