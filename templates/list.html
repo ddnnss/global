@@ -60,7 +60,7 @@
                             </ul>
 						</div>
 					</li>
-					<li><a href="#">Instructions</a></li>
+						<li><a href="{% url 'instructions' %}">Instructions</a></li>
 					<li><a href="{% url 'contests' %}">Contests</a></li>
                     {% if request.user.is_superuser %}
 					<li class="li-mob"><a href="{% url 'admin_page' 1 %}">Admin</a></li>

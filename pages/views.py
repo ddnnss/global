@@ -26,6 +26,14 @@ def contests(request):
             cat_ids.append(cat.id)
     return render(request, 'contests.html', locals())
 
+def instructions(request):
+    if request.user.is_authenticated:
+        categories = request.user.category.all()
+        cat_ids = []
+        for cat in categories:
+            cat_ids.append(cat.id)
+    return render(request, 'instr.html', locals())
+
 def startups(request,id):
     stage = Stage.objects.get(id=1)
     contest_cat = ''
