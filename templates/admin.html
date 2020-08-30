@@ -128,10 +128,7 @@
                                                 <span class="startup-table__subtitle">Status</span>
                                                 {{ jury.id | get_rate_info:startup.id | safe}}
                                             </div>
-                                            <div class="startup-table__col startup-table__col-4">
-                                                <span class="startup-table__subtitle">Category</span>
-                                                <p>{{ startup.contest }}</p>
-                                            </div>
+
                                             <div class="startup-table__col startup-table__col-5">
                                                 {{ jury.id | get_rate_send:startup.id | safe}}
 
