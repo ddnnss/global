@@ -25,4 +25,4 @@ from .models import *
 #     search_fields = ('email', 'first_name','last_name', 'phone')
 #
 admin.site.register(User)
-admin.site.register(Category)
+

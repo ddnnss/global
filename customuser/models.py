@@ -34,15 +34,10 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
-class Category(models.Model):
-    name=models.CharField('Category',max_length=255,blank=False,null=True)
-
-    def __str__(self):
-        return f'{self.id} | {self.name}'
 
 class User(AbstractUser):
     username = None
-    category = models.ManyToManyField(Category,blank=False,null=True,verbose_name='User categories')
+
     avatar = models.ImageField('Avatar', upload_to='user',blank=True,null=True)
     first_name = models.CharField('First name', max_length=50, blank=True, null=True)
     last_name = models.CharField('Last name', max_length=50, blank=True, null=True)

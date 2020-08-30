@@ -27,32 +27,10 @@
 			</div>
 			<div class="header-menu">
 				<ul class="header-list">
-					<li class="drop">
-						<a href="#" class="drop-text">
+				<li onclick="window.location.href = '/'" class="drop">
+						<a href="/" class="drop-text">
 							Rate
-							<svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.3625 0.368747L4.5 3.23125L1.63125 0.368747L0.75 1.25L4.5 5L8.25 1.25L7.3625 0.368747Z" fill="white"/></svg>
 						</a>
-						<div class="drop-info">
-							  <ul>
-                                {% if 2 in cat_ids %}
-                                    <li ><a class="active" href="{% url 'startups' 2 %}">Inclusion Solutions</a></li>
-                                {% else %}
-                                    <li><a >Inclusion Solutions</a></li>
-                                {% endif %}
-                                {% if 1 in cat_ids %}
-                                    <li><a class="active" href="{% url 'startups' 1 %}">Financial Services</a></li>
-                                {% else %}
-                                    <li><a >Financial Services</a></li>
-                                {% endif %}
-                                {% if 3 in cat_ids %}
-                                    <li><a class="active" href="{% url 'startups' 3 %}">HR Solutions</a></li>
-                                {% else %}
-                                    <li><a >HR Solutions</a></li>
-                                {% endif %}
-
-
-                            </ul>
-						</div>
 					</li>
 						<li><a href="{% url 'instructions' %}">Instructions</a></li>
 					<li><a href="{% url 'contests' %}">Contests</a></li>
@@ -106,23 +84,7 @@
 									Send Invitation
 								</button>
 							</div>
-							<div class="invite-form__checkbox">
-								<div class="checkbox">
-									<input name="category" type="checkbox" value="Inclusion Solutions" checked>
-									<span class="checkbox-ico"><svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.75 1.25L4.75 10.25L0.625 6.125L1.6825 5.0675L4.75 8.1275L12.6925 0.192505L13.75 1.25Z" fill="#0028C8"/></svg></span>
-									<p>Inclusion Solutions</p>
-								</div>
-								<div class="checkbox">
-									<input  name="category" type="checkbox" value="Financial Services">
-									<span class="checkbox-ico"><svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.75 1.25L4.75 10.25L0.625 6.125L1.6825 5.0675L4.75 8.1275L12.6925 0.192505L13.75 1.25Z" fill="#0028C8"/></svg></span>
-									<p>Financial Services</p>
-								</div>
-								<div class="checkbox">
-									<input  name="category" type="checkbox" value="HR Solutions">
-									<span class="checkbox-ico"><svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.75 1.25L4.75 10.25L0.625 6.125L1.6825 5.0675L4.75 8.1275L12.6925 0.192505L13.75 1.25Z" fill="#0028C8"/></svg></span>
-									<p>HR Solutions</p>
-								</div>
-							</div>
+
 						</form>
 					</div>
 					<div class="invite-table">
@@ -143,11 +105,7 @@
 								<p>{{ person.email }}</p>
 							</div>
 							<div class="invite-table__col invite-table__col-2">
-								<ul class="startup-category">
-                                    {% for cat in person.category.all%}
-									<li><a href="#">{{ cat.name }}</a></li>
-                                        {% endfor %}
-								</ul>
+
 							</div>
 							<div class="invite-table__col invite-table__col-3">
                                 {% if person.is_active %}

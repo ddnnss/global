@@ -27,32 +27,10 @@
 			</div>
 			<div class="header-menu">
 				<ul class="header-list">
-					<li class="drop">
-						<a href="#" class="drop-text">
+					<li onclick="window.location.href = '/'" class="drop">
+						<a href="/" class="drop-text">
 							Rate
-							<svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.3625 0.368747L4.5 3.23125L1.63125 0.368747L0.75 1.25L4.5 5L8.25 1.25L7.3625 0.368747Z" fill="white"/></svg>
 						</a>
-						<div class="drop-info">
-							  <ul>
-                                {% if 2 in cat_ids %}
-                                    <li ><a class="active" href="{% url 'startups' 2 %}">Inclusion Solutions</a></li>
-                                {% else %}
-                                    <li><a >Inclusion Solutions</a></li>
-                                {% endif %}
-                                {% if 1 in cat_ids %}
-                                    <li><a class="active" href="{% url 'startups' 1 %}">Financial Services</a></li>
-                                {% else %}
-                                    <li><a >Financial Services</a></li>
-                                {% endif %}
-                                {% if 3 in cat_ids %}
-                                    <li><a class="active" href="{% url 'startups' 3 %}">HR Solutions</a></li>
-                                {% else %}
-                                    <li><a >HR Solutions</a></li>
-                                {% endif %}
-
-
-                            </ul>
-						</div>
 					</li>
 						<li><a href="{% url 'instructions' %}">Instructions</a></li>
 					<li><a href="{% url 'contests' %}">Contests</a></li>

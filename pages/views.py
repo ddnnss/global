@@ -6,51 +6,56 @@ from customuser.models import *
 from django.core.mail import send_mail, send_mass_mail
 from django.template.loader import render_to_string
 import settings
+from django.views.generic import View
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
 
+from xhtml2pdf import pisa
 
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+class GeneratePdf(View):
+    def get(self, request, *args, **kwargs):
+        startups_data = StartUp.objects.all().order_by('-total_points')
+        data = {
+             'startups_data': startups_data,
+        }
+        pdf = render_to_pdf('pdf.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
 def index(request):
     form = UserCreationForm()
     if request.user.is_authenticated:
-        categories = request.user.category.all()
-        cat_ids = []
-        for cat in categories:
-            cat_ids.append(cat.id)
-        print(cat_ids)
+
+
+        localStartup = StartUp.objects.all().order_by('-total_points')
+        all_rated = Rated.objects.filter(user=request.user)
+        rated = []
+        for i in all_rated:
+            rated.append(i.startup.id)
+
     return render(request, 'index.html', locals())
 
 def contests(request):
-    if request.user.is_authenticated:
-        categories = request.user.category.all()
-        cat_ids = []
-        for cat in categories:
-            cat_ids.append(cat.id)
+
     return render(request, 'contests.html', locals())
 
 def instructions(request):
-    if request.user.is_authenticated:
-        categories = request.user.category.all()
-        cat_ids = []
-        for cat in categories:
-            cat_ids.append(cat.id)
+
     return render(request, 'instr.html', locals())
 
 def startups(request,id):
     stage = Stage.objects.get(id=1)
-    contest_cat = ''
-    if id == '1':
-        contest_cat = 'Financial Services'
-    if id == '2':
-        contest_cat = 'Inclusion Solutions'
-    if id == '3':
-        contest_cat = 'HR Solutions'
-
-    categories = request.user.category.all()
-    cat_ids = []
-    for cat in categories:
-        cat_ids.append(cat.id)
 
     if stage.stage1:
-        localStartup = StartUp.objects.filter(contest=contest_cat)
+        localStartup = StartUp.objects.all().order_by('-total_points')
         all_rated = Rated.objects.filter(user=request.user)
         rated = []
         for i in all_rated:
@@ -70,11 +75,9 @@ def startups(request,id):
     return render(request, 'list.html', locals())
 
 def admin(request,category_id):
-    stage = Stage.objects.get(id=1)
-    categories = request.user.category.all()
-    cat_ids = []
-    for cat in categories:
-        cat_ids.append(cat.id)
+
+
+
     allStartups = Startups.objects.using('users').all()
 
 
@@ -108,40 +111,18 @@ def admin(request,category_id):
         else:
             print('not appruved')
 
-    contest_cat = ''
-    if category_id == '1':
-        contest_cat = 'Financial Services'
-    if category_id == '2':
-        contest_cat = 'Inclusion Solutions'
-    if category_id == '3':
-        contest_cat = 'HR Solutions'
-    if stage.stage1:
-        localStartup = StartUp.objects.filter(contest=contest_cat).order_by('-total_points')
-    else:
-        temp = StartUp.objects.all().order_by('-total_points')[:settings.MAX_STAPTUPS_TOP_7]
-        localStartup =[]
-        for i in temp:
-            if i.contest == contest_cat:
-                localStartup.append(i)
-    listJury = User.objects.filter(category__in=[category_id])
+
+    localStartup = StartUp.objects.all().order_by('-total_points')
+
+    listJury = User.objects.all()
     print(listJury)
 
     return render(request, 'admin.html', locals())
 
 def invite(request):
-    categories = request.user.category.all()
-    cat_ids = []
-    for cat in categories:
-        cat_ids.append(cat.id)
     if request.POST:
         print(request.POST)
         user = User.objects.create(email=request.POST.get('email'),first_name=request.POST.get('name'), is_invited=True)
-
-        print(user)
-        for cat in request.POST.getlist('category'):
-            c = Category.objects.get(name=cat)
-            user.category.add(c)
-
 
     allinvited = User.objects.filter(is_invited_person=True)
 
@@ -157,19 +138,19 @@ def rate(request):
 
     product_bar = int(data.get('product_bar').split('-')[1]) * multiplier
     team_bar = int(data.get('team_bar').split('-')[1]) * multiplier
-    achievements_bar = int(data.get('achievements_bar').split('-')[1]) * multiplier
+    presentation_bar = int(data.get('presentation_bar').split('-')[1]) * multiplier
     market_bar = int(data.get('market_bar').split('-')[1]) * multiplier
     business_bar = int(data.get('business_bar').split('-')[1]) * multiplier
 
     startup.product_bar += product_bar
     startup.team_bar += team_bar
-    startup.achievements_bar += achievements_bar
+    startup.presentation_bar += presentation_bar
     startup.market_bar += market_bar
     startup.business_bar += business_bar
 
     startup.total_points += product_bar +\
                             team_bar +\
-                            achievements_bar +\
+                            presentation_bar +\
                             market_bar +\
                             business_bar
     startup.save()
