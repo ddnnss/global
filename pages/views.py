@@ -34,8 +34,10 @@ def index(request):
     form = UserCreationForm()
     if request.user.is_authenticated:
 
+        exclude_list = ['monica@almondgroupllc.com', 'Ngozi.nnaji@akoinsuranceconsulting.com','megumi@megumimiki.com',
+                        'steve@topdoglearning.biz','angela@3blafrica.com','joel.lehi@machitia.com']
+        localStartup = StartUp.objects.all().order_by('-total_points').exclude(email__in=exclude_list)
 
-        localStartup = StartUp.objects.all().order_by('-total_points')
         all_rated = Rated.objects.filter(user=request.user)
         rated = []
         for i in all_rated:
@@ -52,26 +54,12 @@ def instructions(request):
     return render(request, 'instr.html', locals())
 
 def startups(request,id):
-    stage = Stage.objects.get(id=1)
-
-    if stage.stage1:
-        localStartup = StartUp.objects.all().order_by('-total_points')
-        all_rated = Rated.objects.filter(user=request.user)
-        rated = []
-        for i in all_rated:
-            rated.append(i.startup.id)
-    else:
-        temp = StartUp.objects.all().order_by('-total_points')[:settings.MAX_STAPTUPS_TOP_7]
-        localStartup = []
-        for i in temp:
-            if i.contest == contest_cat:
-                localStartup.append(i)
-
-
-        all_rated = RatedStage2.objects.filter(user=request.user)
-        rated = []
-        for i in all_rated:
-            rated.append(i.startup.id)
+    exclude_list=['info@aspencarehealth.com','charlie@dotx.id']
+    localStartup = StartUp.objects.all().order_by('-total_points').exclude(id=4)
+    all_rated = Rated.objects.filter(user=request.user)
+    rated = []
+    for i in all_rated:
+        rated.append(i.startup.id)
     return render(request, 'list.html', locals())
 
 def admin(request,category_id):
@@ -111,8 +99,9 @@ def admin(request,category_id):
         else:
             print('not appruved')
 
-
-    localStartup = StartUp.objects.all().order_by('-total_points')
+    exclude_list = ['monica@almondgroupllc.com', 'Ngozi.nnaji@akoinsuranceconsulting.com', 'megumi@megumimiki.com',
+                    'steve@topdoglearning.biz', 'angela@3blafrica.com', 'joel.lehi@machitia.com']
+    localStartup = StartUp.objects.all().order_by('-total_points').exclude(email__in=exclude_list)
 
     listJury = User.objects.all()
     print(listJury)
