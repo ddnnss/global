@@ -103,7 +103,7 @@ def admin(request,category_id):
                     'steve@topdoglearning.biz', 'angela@3blafrica.com', 'joel.lehi@machitia.com']
     localStartup = StartUp.objects.all().order_by('-total_points').exclude(email__in=exclude_list)
 
-    listJury = User.objects.all()
+    listJury = User.objects.filter(is_superuser=False)
     print(listJury)
 
     return render(request, 'admin.html', locals())
